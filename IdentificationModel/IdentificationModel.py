@@ -188,7 +188,7 @@ class idModel(pl.LightningModule):
 
         return loss
     
-
-        
-
-    
+    # Configure optimisers
+    def configure_optimizers(self):
+        optimiser = pt.optim.Adam(self.parameters(), lr=self.lr) # Adaptive Moment Estimation (Adam) optimiser
+        return optimiser
