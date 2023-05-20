@@ -1,5 +1,5 @@
 # Imports 
-import PyTorch_lightning as pl
+import pytorch_lightning as pl
 import math as maths
 import torch as pt
 from torch import nn
