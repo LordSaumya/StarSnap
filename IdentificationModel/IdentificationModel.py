@@ -61,6 +61,7 @@ class idModel(pl.LightningModule):
         self.lr = lr
         self.batchSize = batchSize
         self.loss = nn.CrossEntropyLoss()
+        self.maxPool = nn.MaxPool2d(2, 2)
 
         # model architecture
 
@@ -86,16 +87,56 @@ class idModel(pl.LightningModule):
 
         ## Layer 6 (reduces to 128 features)
         self.fc1 = nn.Linear(512*13*13, 128)
-        self.batchNorm6 = nn.BatchNorm1d(128)
 
         ## Layer 7 (output layer)
         numOfConstellations = 10
         self.fc2 = nn.Linear(128, numOfConstellations)
-        self.batchNorm7 = nn.BatchNorm1d(10)
 
         # activation functions
         self.relu = nn.ReLU()
         self.softmax = nn.Softmax(dim=1)
+
+    # forward prop
+    def forward(self, x):
+        # Layer 1 (input layer)
+        x = self.conv1(x)
+        x = self.batchNorm1(x)
+        x = self.relu(x)
+        x = self.maxPool(x)
+
+        # Layer 2
+        x = self.conv2(x)
+        x = self.batchNorm2(x)
+        x = self.relu(x)
+
+        # Layer 3
+        x = self.conv3(x)
+        x = self.batchNorm3(x)
+        x = self.relu(x)
+        x = self.maxPool(x)
+
+        # Layer 4
+        x = self.conv4(x)
+        x = self.batchNorm4(x)
+        x = self.relu(x)
+
+        # Layer 5
+        x = self.conv5(x)
+        x = self.batchNorm5(x)
+        x = self.relu(x)
+        x = self.maxPool(x)
+
+        # Layer 6
+        x = pt.flatten(x, 1) # reduces tensor dimension to 1D
+        x = self.fc1(x)
+        x = self.relu(x)
+
+        # Layer 7 (output layer)
+        x = self.fc2(x)
+        x = self.softmax(x) # returns probabilities for each constellation
+
+        return x
+
         
 
     
