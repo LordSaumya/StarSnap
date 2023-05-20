@@ -5,6 +5,7 @@ import torch as pt
 from torch import nn
 from torch.nn import functional as F
 from torch.utils.data import random_split, DataLoader
+import torchmetrics as tm
 from torchvision import datasets, transforms
 from torchvision.datasets import ImageFolder
 
@@ -96,6 +97,9 @@ class idModel(pl.LightningModule):
         self.relu = nn.ReLU()
         self.softmax = nn.Softmax(dim=1)
 
+        # accuracy function
+        self.accuracy = tm.Accuracy(task = "multiclass", num_classes = numOfConstellations)
+
     # forward prop
     def forward(self, x):
         # Layer 1 (input layer)
@@ -136,6 +140,54 @@ class idModel(pl.LightningModule):
         x = self.softmax(x) # returns probabilities for each constellation
 
         return x
+    
+    # Training step
+    def training_step(self, batch, batch_idx):
+        inputImage, label = batch
+        logits = self(inputImage) # get predictions
+        loss = F.nll_loss(logits, label) # calculate loss using negative log
+        
+        prediction = pt.argmax(logits, dim=1) # get prediction with max probability
+        accuracy = self.accuracy(prediction, label) # calculate accuracy
+
+        # Log metrics
+        self.log('trainingLoss', loss, on_step = True, on_epoch = True, logger = True)
+        self.log('trainingAccuracy', accuracy, on_step = True, on_epoch = True, logger = True)
+
+        return loss
+    
+    # Validation step
+    def validation_step(self, batch, batch_idx):
+        # Same as training step except for logging method
+        inputImage, label = batch
+        logits = self(inputImage)
+        loss = F.nll_loss(logits, label)
+
+        prediction = pt.argmax(logits, dim=1)
+        accuracy = self.accuracy(prediction, label)
+
+        # Log metrics
+        self.log('validationLoss', loss, prog_bar = True, logger = True)
+        self.log('validationAccuracy', accuracy, prog_bar = True, logger = True)
+
+        return loss
+    
+    # Test step
+    def test_step(self, batch, batch_idx):
+        # Same as training step except for logging method
+        inputImage, label = batch
+        logits = self(inputImage)
+        loss = F.nll_loss(logits, label)
+
+        prediction = pt.argmax(logits, dim=1)
+        accuracy = self.accuracy(prediction, label)
+
+        # Log metrics
+        self.log('testLoss', loss, prog_bar = True, logger = True)
+        self.log('testAccuracy', accuracy, prog_bar = True, logger = True)
+
+        return loss
+    
 
         
 
