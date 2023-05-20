@@ -18,6 +18,7 @@ class idDataModel(pl.LightningDataModule):
         self.batchSize = batchSize
         self.transform = transforms.Compose([
             transforms.Grayscale(num_output_channels=1),
+            transforms.random_rotation(degrees=180),
             transforms.center_crop(224),
             transforms.adjust_contrast(contrast_factor=2),
             transforms.ToTensor(),
