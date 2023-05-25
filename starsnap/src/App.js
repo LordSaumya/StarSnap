@@ -29,7 +29,7 @@ export default function App() {
           Handles wrong routes. */}
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Navbar />} />
+              <Route path="/learn" element={<Navbar currentPage = "learningTab" />} />
               <Route path="*" element={<Navbar />} />
             </Routes>
           </BrowserRouter>

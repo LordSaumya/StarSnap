@@ -4,11 +4,21 @@ import {
     Text,
     Button,
     ButtonGroup,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    MenuDivider,
     Container,
+    Icon,
     Flex,
-    Slide,
+    Collapse,
     HStack,
+    IconButton,
+    Image,
 } from '@chakra-ui/react';
+import { FaGraduationCap, FaSignOutAlt, FaComments, FaUserAstronaut, FaImages} from 'react-icons/fa';
+import cameraIcon from './images/cameraIcon.png';
 import { useState } from 'react';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { useNavigate } from 'react-router-dom';
@@ -23,7 +33,8 @@ export default function Navbar(props) {
     const Navigate = useNavigate();
     const profPageLink = "/profile/" + username;
 
-    const [hoveredLT, setHoveredLT] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
+
     return (
         <Box
             as="section"
@@ -42,22 +53,76 @@ export default function Navbar(props) {
                     borderBottomWidth=".5px"
                     boxShadow='md'
                 >
-                    <HStack spacing="10" justify="space-between">
-                        {/* <img src={LogoImage} alt="Logo" width="50px" /> */}
-                        <Flex justify="space-between" flex="1">
+                    <Flex justify="space-between">
+                        <Image src={cameraIcon} alt="Logo" height="50px" />
+                        <Flex justify="center" flex={1} align="center">
                             <ButtonGroup variant="ghost" spacing="8">
-                                <a href="/"><Slide direction='bottom' in={hoveredLT} style={{ zIndex: 10 }}><Button variant={props.currentPage === "learningTab" ? "solid" : "ghost"}>Learning Tab</Button></Slide></a>
-                                <a href={profPageLink}><Button variant={props.currentPage === "profile" ? "solid" : "ghost"}>Profile</Button></a>
+                                <Button as="a" href="/" leftIcon={<Icon as={FaGraduationCap} boxSize="1.5em" />} variant={props.currentPage === "learningTab" ? "solid" : "ghost"}>Learning Tab</Button>
+                                <Image display="inline" onMouseDown={{/*Add navigate function*/ }} boxSize="6em" src={cameraIcon} _hover={{ border: "2px", boxShadow: "dark-lg" }} border="1px" boxShadow="lg" borderRadius={1000000} />
+                                <Button as="a" href="/" leftIcon={<Icon as={FaComments} boxSize="1.5em" />} variant={props.currentPage === "learningTab" ? "solid" : "ghost"}>Forum</Button>
                                 {mods.includes(username) ? <Button onClick={() => Navigate("/ModDashboard", { state: { access: true } })} variant={props.currentPage === "moderator" ? "solid" : "ghost"}>Moderator Dashboard</Button> : <></>}
                             </ButtonGroup>
-                            <HStack spacing="3">
-                                <ColorModeSwitcher justifySelf="flex-end" />
-                            </HStack>
                         </Flex>
-                    </HStack>
+                        <HStack spacing="3">
+                            <ColorModeSwitcher />
+                            <NavbarProfileLink />
+                        </HStack>
+                    </Flex>
                 </Container>
             </Box>
         </Box>
 
     )
+}
+
+function NavbarProfileLink(props) {
+    const Navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [isHovering, setIsHovering] = useState(false);
+    const handleMouseOver = () => {
+        setIsHovering(true);
+    };
+
+    const handleMouseOut = () => {
+        setIsHovering(false);
+    };
+
+    const username = useSelector(state => state.username);
+
+    const logOut = () => {
+        if (window.confirm("Are you sure you want to log out?")) {
+            const action = { type: "LOGOUT" };
+            dispatch(action);
+            try {
+                Navigate("/Registration", { state: { typeNotification: "loggedOut" } });
+            }
+            catch (e) {
+                console.log(e);
+            }
+        }
+    }
+
+    if (!username) {
+        return (
+            <Button variant="ghost" onClick={() => Navigate("/Registration", { state: { typeNotification: "loggedIn" } })}>
+                <Text fontSize="sm" fontWeight="medium" color="gray.500">Log In or Sign Up</Text>
+            </Button>
+        );
+    }
+    else {
+        return (
+            <HStack>
+                <Menu>
+                    <MenuButton as={IconButton} aria-label='ProfilePic' variant="ghost" icon = {<Image src={cameraIcon} alt="Logo" height="50px" borderRadius={10000}  _hover = {{border: "1px"}} />} borderRadius={1000000}>
+                    </MenuButton>
+                    <MenuList>
+                        <MenuItem icon = {<Icon as = {FaUserAstronaut} boxSize={5} />} onClick={() => Navigate("/profile/" + username)}>Profile</MenuItem>
+                        <MenuItem icon = {<Icon as = {FaImages} boxSize={5} />} onClick={() => Navigate("/personalGallery")}>Personal Gallery</MenuItem>
+                        <MenuDivider />
+                        <MenuItem icon = {<Icon as = {FaSignOutAlt} boxSize={5} />} onClick={logOut}>Log out</MenuItem>
+                        </MenuList>
+                </Menu>
+            </HStack>
+        );
+    }
 }
