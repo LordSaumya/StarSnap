@@ -16,6 +16,7 @@ import { persistor, store } from './store';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import Index from './index';
+import Post from './post';
 import { PersistGate } from 'redux-persist/integration/react';
 
 export default function App() {
@@ -30,7 +31,7 @@ export default function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/learn" element={<Navbar currentPage = "learningTab" />} />
-              <Route path="*" element={<Navbar />} />
+              <Route path="*" element={<Post />} />
             </Routes>
           </BrowserRouter>
         </ChakraProvider>
