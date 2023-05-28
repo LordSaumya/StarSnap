@@ -1,4 +1,9 @@
-    [[redirects]]
+[build]
+    base = "starsnap/"
+    publish = "src/"
+    command = "yarn build"
+
+[[redirects]]
     from = "/*"
     to = "/index.html"
     status = 200

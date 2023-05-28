@@ -30,6 +30,7 @@ export default function App() {
           Handles wrong routes. */}
           <BrowserRouter>
             <Routes>
+              <Route path="/" element={<Navbar />} />
               <Route path="/Navbar" element={<Navbar currentPage = "learningTab" />} />
               <Route path="/Post" element={<Post />} />
             </Routes>
