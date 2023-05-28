@@ -19,6 +19,7 @@ import {
 } from '@chakra-ui/react';
 import { FaGraduationCap, FaSignOutAlt, FaComments, FaUserAstronaut, FaImages} from 'react-icons/fa';
 import cameraIcon from './images/cameraIcon.png';
+import logo from './images/logo.png';
 import { useState } from 'react';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { useNavigate } from 'react-router-dom';
@@ -32,8 +33,6 @@ export default function Navbar(props) {
     const username = "abc"; //useSelector(state => state.username);
     const Navigate = useNavigate();
     const profPageLink = "/profile/" + username;
-
-    const [isHovered, setIsHovered] = useState(false);
 
     return (
         <Box
@@ -54,7 +53,7 @@ export default function Navbar(props) {
                     boxShadow='md'
                 >
                     <Flex justify="space-between">
-                        <Image src={cameraIcon} alt="Logo" height="50px" />
+                        <Image src={logo} alt="Logo" height="5em" borderRadius={10000} />
                         <Flex justify="center" flex={1} align="center">
                             <ButtonGroup variant="ghost" spacing="8">
                                 <Button as="a" href="/" leftIcon={<Icon as={FaGraduationCap} boxSize="1.5em" />} variant={props.currentPage === "learningTab" ? "solid" : "ghost"}>Learning Tab</Button>
@@ -78,14 +77,6 @@ export default function Navbar(props) {
 function NavbarProfileLink(props) {
     const Navigate = useNavigate();
     const dispatch = useDispatch();
-    const [isHovering, setIsHovering] = useState(false);
-    const handleMouseOver = () => {
-        setIsHovering(true);
-    };
-
-    const handleMouseOut = () => {
-        setIsHovering(false);
-    };
 
     const username = "abc";// useSelector(state => state.username);
 

@@ -31,11 +31,11 @@ export default function Post(props) {
     //props: PostID, image, caption, date, UserID, Tag
     const PostID = 0; //props.PostID;
     const image = testImage; //props.Image;
-    const Caption = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sodales non est ac pulvinar. Nulla quis eros euismod, tempor erat ac, tincidunt nulla." //props.Caption;
+    const Caption = "The Beehive Cluster is an open cluster in the constellation Cancer. One of the nearest open clusters to Earth, it contains a larger population of stars than other nearby bright open clusters holding around 1,000 stars." //props.Caption;
     const Date = 20120606; //props.Date;
     const isLiked = false;
     const UserID = 0; //props.UserID;
-    const Tag = "ABC"//props.Tag;
+    const Tag = "Beehive Cluster"//props.Tag;
 
     const Navigate = useNavigate();
     const timeAgo = moment(Date).fromNow();
@@ -64,11 +64,11 @@ export default function Post(props) {
                     <Divider color = "gray.500" paddingTop = "5px" />
                 <HStack height = "5em">
                     <ButtonGroup isAttached variant="outline" borderRight = "5px">
-                <IconButton onMouseDown = {LikePost(PostID, UserID)} color = {isLiked ? "orange" : ""} size='md' mt = '1rem' icon = {<FaThumbsUp />} />
+                <IconButton onMouseDown = {LikePost(PostID, UserID)} color = {isLiked ? "blue.500" : ""} size='md' mt = '1rem' icon = {<FaThumbsUp />} />
                 <IconButton size='md' mt = '1rem' icon = {<FaComment />} />
                 <IconButton size='md' mt = '1rem' icon = {<FaLink />} />
                 </ButtonGroup>
-                <Text paddingTop = "1em" fontSize="sm" color="gray.500" name="postCaption">
+                <Text paddingLeft = "1em" paddingTop = "1em" fontSize="sm" color="gray.500" name="postCaption">
                     {Caption}
                 </Text>
                 </HStack>
