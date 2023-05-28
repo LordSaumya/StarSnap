@@ -21,6 +21,7 @@ import {
     Divider,
     Collapse,
     Image,
+    ButtonGroup,
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import { CheckIcon, WarningIcon, AddIcon, ChatIcon, TriangleDownIcon, TriangleUpIcon, Search2Icon } from '@chakra-ui/icons';
@@ -61,9 +62,16 @@ export default function Post(props) {
                     <Divider color = "gray.500" paddingTop = "5px" />
                     <Image height = "40vh" width = "100%" py = "8px" src={image} alt="PostImage" />
                     <Divider color = "gray.500" paddingTop = "5px" />
-                <IconButton onMouseDown = {LikePost(PostID, UserID)} color = {isLiked ? "orange" : ""} size='md' mt = '1rem' variant = "ghost" icon = {<FaThumbsUp />} />
-                <IconButton size='md' mt = '1rem' variant = "ghost" icon = {<FaComment />} />
-                <IconButton size='md' mt = '1rem' variant = "ghost" icon = {<FaLink />} />
+                <HStack height = "5em">
+                    <ButtonGroup isAttached variant="outline" borderRight = "5px">
+                <IconButton onMouseDown = {LikePost(PostID, UserID)} color = {isLiked ? "orange" : ""} size='md' mt = '1rem' icon = {<FaThumbsUp />} />
+                <IconButton size='md' mt = '1rem' icon = {<FaComment />} />
+                <IconButton size='md' mt = '1rem' icon = {<FaLink />} />
+                </ButtonGroup>
+                <Text paddingTop = "1em" fontSize="sm" color="gray.500" name="postCaption">
+                    {Caption}
+                </Text>
+                </HStack>
             </Container>
         </LazyLoad>
     );

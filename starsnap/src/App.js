@@ -30,8 +30,8 @@ export default function App() {
           Handles wrong routes. */}
           <BrowserRouter>
             <Routes>
-              <Route path="/learn" element={<Navbar currentPage = "learningTab" />} />
-              <Route path="*" element={<Post />} />
+              <Route path="/Navbar" element={<Navbar currentPage = "learningTab" />} />
+              <Route path="/Post" element={<Post />} />
             </Routes>
           </BrowserRouter>
         </ChakraProvider>

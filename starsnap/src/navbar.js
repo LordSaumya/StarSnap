@@ -87,7 +87,7 @@ function NavbarProfileLink(props) {
         setIsHovering(false);
     };
 
-    const username = useSelector(state => state.username);
+    const username = "abc";// useSelector(state => state.username);
 
     const logOut = () => {
         if (window.confirm("Are you sure you want to log out?")) {
