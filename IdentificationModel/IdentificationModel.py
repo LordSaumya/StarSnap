@@ -7,10 +7,11 @@ from torch.nn import functional as F
 from torch.utils.data import random_split, DataLoader
 import torchmetrics as tm
 from torchvision import datasets, transforms
+from pytorch_lightning.loggers import TensorBoardLogger
 from torchvision.datasets import ImageFolder
 
 # dataLoader provider
-class idDataModel(pl.LightningDataModule):
+class idDataLoader(pl.LightningDataModule):
     # Constructor
     def __init__(self, data_dir, batchSize, ):
         super().__init__()
@@ -91,7 +92,7 @@ class idModel(pl.LightningModule):
         self.fc1 = nn.Linear(512*13*13, 128)
 
         ## Layer 7 (output layer)
-        numOfConstellations = 10
+        numOfConstellations = 4
         self.fc2 = nn.Linear(128, numOfConstellations)
 
         # activation functions
@@ -193,3 +194,10 @@ class idModel(pl.LightningModule):
     def configure_optimizers(self):
         optimiser = pt.optim.Adam(self.parameters(), lr=self.lr) # Adaptive Moment Estimation (Adam) optimiser
         return optimiser
+    
+# Training
+tbLogger = TensorBoardLogger('tb_logs', name = "constellationIdentificationModel")
+trainer = pl.Trainer(logger = tbLogger)
+model = idModel()
+dataLoader = idDataLoader()
+trainer.fit(model, dataLoader.train_dataloader(), dataLoader.val_dataloader())
