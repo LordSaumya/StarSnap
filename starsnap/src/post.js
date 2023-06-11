@@ -48,7 +48,7 @@ export default function Post(props) {
 
     return (
         <LazyLoad>
-            <Container boxShadow = "md" minWidth = "50%" padding = "10px" name = "postContainer" marginBottom = "10px">
+            <Container boxShadow = "md" minWidth = "70%" padding = "10px" name = "postContainer" marginBottom = "10px">
                 <Badge ml='1' colorScheme='green' float="right" name="postTag">
                     {Tag}
                 </Badge>
@@ -58,7 +58,7 @@ export default function Post(props) {
                     </Badge>
                     : <></>
                 }
-                    <HStack><Image  src={cameraIcon} height = "2em" onMouseDown={Navigate()} alt="ProfPic" borderRadius={10000} _hover={{border: "1px"}} /><Text fontSize="sm" color="gray.500"><Link href={"/ProfilePage/" + authorUsername} color="teal.500" >{authorUsername}</Link> {timeAgo}</Text></HStack>
+                    <HStack><Image  src={cameraIcon} height = "2em" alt="ProfPic" borderRadius={10000} _hover={{border: "1px"}} /><Text fontSize="sm" color="gray.500"><Link href={"/ProfilePage/" + authorUsername} color="teal.500" >{authorUsername}</Link> {timeAgo}</Text></HStack>
                     <Divider color = "gray.500" paddingTop = "5px" />
                     <Image height = "40vh" width = "100%" py = "8px" src={image} alt="PostImage" />
                     <Divider color = "gray.500" paddingTop = "5px" />

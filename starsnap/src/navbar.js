@@ -37,11 +37,8 @@ export default function Navbar(props) {
     return (
         <Box
             as="section"
-            pb={{
-                base: '12',
-                md: '24',
-            }}>
-
+            boxShadow  = "md"
+            >
             <Box as="nav" bg="bg-surface">
                 <Container
                     py={{

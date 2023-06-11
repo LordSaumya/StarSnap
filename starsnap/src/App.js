@@ -10,13 +10,11 @@ import {
   Grid,
   theme,
 } from '@chakra-ui/react';
+import Home from './Home';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
-import Navbar from './navbar';
 import { persistor, store } from './store';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
-import Index from './index';
-import Post from './post';
 import { PersistGate } from 'redux-persist/integration/react';
 
 export default function App() {
@@ -30,9 +28,7 @@ export default function App() {
           Handles wrong routes. */}
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Navbar />} />
-              <Route path="/Navbar" element={<Navbar currentPage = "learningTab" />} />
-              <Route path="/Post" element={<Post />} />
+              <Route path="/" element={<Home />} />
             </Routes>
           </BrowserRouter>
         </ChakraProvider>
