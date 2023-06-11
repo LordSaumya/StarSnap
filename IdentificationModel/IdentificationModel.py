@@ -6,7 +6,7 @@ from torch import nn
 from torch.nn import functional as F
 from torch.utils.data import random_split, DataLoader
 import torchmetrics as tm
-from torchvision import datasets, transforms
+from torchvision import transforms
 from pytorch_lightning.loggers import TensorBoardLogger
 from torchvision.datasets import ImageFolder
 
