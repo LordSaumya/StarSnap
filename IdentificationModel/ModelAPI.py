@@ -41,6 +41,6 @@ def predict():
         img_bytes = file.read()
         return jsonify(get_prediction(image_bytes=img_bytes))
 
-
+# Main function
 if __name__ == '__main__':
     app.run()

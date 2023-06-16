@@ -193,11 +193,17 @@ class idModel(pl.LightningModule):
     # Configure optimisers
     def configure_optimizers(self):
         optimiser = pt.optim.Adam(self.parameters(), lr=self.lr) # Adaptive Moment Estimation (Adam) optimiser
-        return optimiser
+        scheduler = pt.optim.lr_scheduler.StepLR(optimiser, step_size=10, gamma=0.1)
+        return [optimiser], [scheduler]
     
 # Training
 tbLogger = TensorBoardLogger('tb_logs', name = "constellationIdentificationModel")
 trainer = pl.Trainer(logger = tbLogger)
-model = idModel()
+model = idModel((1,224,224), 4, 1e-3, 5)
 dataLoader = idDataLoader()
-trainer.fit(model, dataLoader.train_dataloader(), dataLoader.val_dataloader())
+
+# Main function
+if __name__ == '__main__':
+    trainer.fit(model, dataLoader.train_dataloader(), dataLoader.val_dataloader())
+    trainer.test(model, dataLoader.test_dataloader())
+    pt.save(model.state_dict(), 'idModel.pt')
