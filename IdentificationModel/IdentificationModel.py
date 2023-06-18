@@ -7,21 +7,24 @@ from torch.nn import functional as F
 from torch.utils.data import random_split, DataLoader
 import torchmetrics as tm
 from torchvision import transforms
-from pytorch_lightning.loggers import TensorBoardLogger
+from pytorch_lightning import loggers as pl_loggers
 from torchvision.datasets import ImageFolder
+from PIL import Image
+import matplotlib.pyplot as plt
+import io
 
 # dataLoader provider
 class idDataLoader(pl.LightningDataModule):
     # Constructor
-    def __init__(self, data_dir, batchSize, ):
+    def __init__(self, data_dir, batch_size):
         super().__init__()
         self.dataDir = data_dir
-        self.batchSize = batchSize
+        self.batch_size = batch_size
         self.transform = transforms.Compose([
             transforms.Grayscale(num_output_channels=1),
-            transforms.random_rotation(degrees=180),
-            transforms.center_crop(224),
-            transforms.adjust_contrast(contrast_factor=2),
+            transforms.RandomRotation(degrees=180),
+            transforms.CenterCrop(224),
+            transforms.ColorJitter(brightness=0, contrast=2.0, saturation=0, hue=0),
             transforms.ToTensor(),
             transforms.Normalize((0.5,), (0.5,))
         ])
@@ -35,22 +38,22 @@ class idDataLoader(pl.LightningDataModule):
     def setup(self, stage=None):
         # Assign train/val datasets for use in dataloaders
         if stage == 'fit' or stage is None:
-            id_dataset = ImageFolder(self.dataDir, train = True,  transform=self.transform)
-            self.id_train, self.id_val = random_split(id_dataset, [int(len(id_dataset)*0.8), int(len(id_dataset)*0.2)])
+            id_dataset = ImageFolder(self.dataDir, transform=self.transform)
+            self.id_train, self.id_val = random_split(id_dataset, [round(len(id_dataset) * 0.8), len(id_dataset) - round(len(id_dataset) * 0.8)])
 
         # Assign test dataset for use in dataloaders
         if stage == 'test' or stage is None:
             self.id_test = ImageFolder(self.dataDir, transform=self.transform)
-    
+
     # functions to return dataLoader modules.
     def train_dataloader(self):
-        return DataLoader(self.id_train, batchSize=self.batchSize, shuffle=True)
-    
+        return DataLoader(self.id_train, batch_size=self.batch_size, shuffle=True)
+
     def val_dataloader(self):
-        return DataLoader(self.id_val, batchSize=self.batchSize)
-    
+        return DataLoader(self.id_val, batch_size=self.batch_size)
+
     def test_dataloader(self):
-        return DataLoader(self.id_test, batchSize=self.batchSize)
+        return DataLoader(self.id_test, batch_size=self.batch_size)
     
 # Model
 class idModel(pl.LightningModule):
@@ -65,6 +68,9 @@ class idModel(pl.LightningModule):
         self.batchSize = batchSize
         self.loss = nn.CrossEntropyLoss()
         self.maxPool = nn.MaxPool2d(2, 2)
+
+        self.validation_preds = []
+        self.validation_targets = []
 
         # model architecture
 
@@ -89,7 +95,7 @@ class idModel(pl.LightningModule):
         self.batchNorm5 = nn.BatchNorm2d(512)
 
         ## Layer 6 (reduces to 128 features)
-        self.fc1 = nn.Linear(512*13*13, 128)
+        self.fc1 = nn.Linear(294912, 128)
 
         ## Layer 7 (output layer)
         numOfConstellations = 4
@@ -104,51 +110,52 @@ class idModel(pl.LightningModule):
 
     # forward prop
     def forward(self, x):
-        # Layer 1 (input layer)
-        x = self.conv1(x)
-        x = self.batchNorm1(x)
-        x = self.relu(x)
-        x = self.maxPool(x)
+      # Layer 1 (input layer)
+      x = self.conv1(x)
+      x = self.batchNorm1(x)
+      x = self.relu(x)
+      x = self.maxPool(x)
 
-        # Layer 2
-        x = self.conv2(x)
-        x = self.batchNorm2(x)
-        x = self.relu(x)
+      # Layer 2
+      x = self.conv2(x)
+      x = self.batchNorm2(x)
+      x = self.relu(x)
 
-        # Layer 3
-        x = self.conv3(x)
-        x = self.batchNorm3(x)
-        x = self.relu(x)
-        x = self.maxPool(x)
+      # Layer 3
+      x = self.conv3(x)
+      x = self.batchNorm3(x)
+      x = self.relu(x)
+      x = self.maxPool(x)
 
-        # Layer 4
-        x = self.conv4(x)
-        x = self.batchNorm4(x)
-        x = self.relu(x)
+      # Layer 4
+      x = self.conv4(x)
+      x = self.batchNorm4(x)
+      x = self.relu(x)
 
-        # Layer 5
-        x = self.conv5(x)
-        x = self.batchNorm5(x)
-        x = self.relu(x)
-        x = self.maxPool(x)
+      # Layer 5
+      x = self.conv5(x)
+      x = self.batchNorm5(x)
+      x = self.relu(x)
+      x = self.maxPool(x)
 
-        # Layer 6
-        x = pt.flatten(x, 1) # reduces tensor dimension to 1D
-        x = self.fc1(x)
-        x = self.relu(x)
+      # Layer 6
+      x = pt.flatten(x, 1) # reduces tensor dimension to 1D
+      x = self.fc1(x)
+      x = self.relu(x)
 
-        # Layer 7 (output layer)
-        x = self.fc2(x)
-        x = self.softmax(x) # returns probabilities for each constellation
+      # Layer 7 (output layer)
+      x = self.fc2(x)
+      x = self.softmax(x) # returns probabilities for each constellation
 
-        return x
-    
+      return x
+
+
     # Training step
     def training_step(self, batch, batch_idx):
         inputImage, label = batch
         logits = self(inputImage) # get predictions
         loss = F.nll_loss(logits, label) # calculate loss using negative log
-        
+
         prediction = pt.argmax(logits, dim=1) # get prediction with max probability
         accuracy = self.accuracy(prediction, label) # calculate accuracy
 
@@ -157,7 +164,7 @@ class idModel(pl.LightningModule):
         self.log('trainingAccuracy', accuracy, on_step = True, on_epoch = True, logger = True)
 
         return loss
-    
+
     # Validation step
     def validation_step(self, batch, batch_idx):
         # Same as training step except for logging method
@@ -168,12 +175,16 @@ class idModel(pl.LightningModule):
         prediction = pt.argmax(logits, dim=1)
         accuracy = self.accuracy(prediction, label)
 
+        # Save the predictions and targets as instance attributes
+        self.validation_preds.append(prediction)
+        self.validation_targets.append(label)
+
         # Log metrics
         self.log('validationLoss', loss, prog_bar = True, logger = True)
         self.log('validationAccuracy', accuracy, prog_bar = True, logger = True)
 
         return loss
-    
+
     # Test step
     def test_step(self, batch, batch_idx):
         # Same as training step except for logging method
@@ -189,21 +200,64 @@ class idModel(pl.LightningModule):
         self.log('testAccuracy', accuracy, prog_bar = True, logger = True)
 
         return loss
-    
+
+    def on_validation_epoch_end(self):
+      # Get the predictions and targets from the validation step
+      preds = pt.cat(self.validation_preds)
+      targets = pt.cat(self.validation_targets)
+
+      # Reset validation variables
+      self.validation_preds = []
+      self.validation_targets = []
+
+      # Calculate the confusion matrix
+      confmat = tm.functional.confusion_matrix(preds, targets, num_classes = self.numClasses, task = "multiclass")
+
+      # Log the confusion matrix to TensorBoard
+      self.logger.experiment.add_image('Confusion Matrix', plot_confusion_matrix(confmat))
+
+      # Calculate and log a histogram to TensorBoard
+      self.logger.experiment.add_histogram('Histogram', preds)
+
     # Configure optimisers
     def configure_optimizers(self):
         optimiser = pt.optim.Adam(self.parameters(), lr=self.lr) # Adaptive Moment Estimation (Adam) optimiser
         scheduler = pt.optim.lr_scheduler.StepLR(optimiser, step_size=10, gamma=0.1)
         return [optimiser], [scheduler]
+
+# TensorBoard Visualisation
+def plot_confusion_matrix(confmat):
+
+    confmat = confmat.cpu()
     
+    # Plot the confusion matrix using matplotlib
+    fig, ax = plt.subplots()
+    ax.matshow(confmat, cmap=plt.cm.Blues)
+    ax.set_xlabel('Predicted label')
+    ax.set_ylabel('True label')
+
+    # Convert the plot to a PIL image
+    buf = io.BytesIO()
+    fig.savefig(buf, format='png')
+    buf.seek(0)
+    image = Image.open(buf)
+
+    # Convert the PIL image to a PyTorch tensor
+    image = transforms.ToTensor()(image)
+
+    return image
+
+# Data directory path
+dataDirPath = "/images"
+
 # Training
-tbLogger = TensorBoardLogger('tb_logs', name = "constellationIdentificationModel")
-trainer = pl.Trainer(logger = tbLogger)
+tensorboard = pl_loggers.TensorBoardLogger(save_dir="")
+trainer = pl.Trainer(logger = tensorboard)
 model = idModel((1,224,224), 4, 1e-3, 5)
-dataLoader = idDataLoader()
+dataLoader = idDataLoader(dataDirPath, 5)
 
 # Main function
 if __name__ == '__main__':
-    trainer.fit(model, dataLoader.train_dataloader(), dataLoader.val_dataloader())
-    trainer.test(model, dataLoader.test_dataloader())
-    pt.save(model.state_dict(), 'idModel.pt')
+    trainer.fit(model, datamodule=dataLoader)
+    trainer.validate(model, datamodule=dataLoader)
+    pt.save(model.state_dict(), 'checkpoint.pth')
