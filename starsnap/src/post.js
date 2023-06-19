@@ -29,18 +29,19 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Post(props) {
     //props: PostID, image, caption, date, UserID, Tag
-    const PostID = 0; //props.PostID;
-    const image = testImage; //props.Image;
-    const Caption = "The Beehive Cluster is an open cluster in the constellation Cancer. One of the nearest open clusters to Earth, it contains a larger population of stars than other nearby bright open clusters holding around 1,000 stars." //props.Caption;
-    const Date = 20120606; //props.Date;
+
+    const PostID = props.PostID;
+    const image = props.Image;
+    const Caption = props.Caption;
+    const Date = props.Date;
     const isLiked = false;
-    const UserID = 0; //props.UserID;
-    const Tag = "Beehive Cluster"//props.Tag;
+    const UserID = props.UserID;
+    const Tag = props.Tag;
 
     const Navigate = useNavigate();
     const timeAgo = moment(Date).fromNow();
     const author = UseFetch("localhost:4000/" + props.UserID); //REPLACE URL
-    const authorUsername = "Test Username"; //author.username;
+    const authorUsername = author ? "" : author.username;
     
 
     const mods = JSON.parse(JSON.stringify(moderatorList)).moderators;
