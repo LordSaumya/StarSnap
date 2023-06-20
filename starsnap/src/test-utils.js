@@ -1,12 +1,3 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import { ChakraProvider, theme } from '@chakra-ui/react';
-
-const AllProviders = ({ children }) => (
-  <ChakraProvider theme={theme}>{children}</ChakraProvider>
-);
-
-const customRender = (ui, options) =>
-  render(ui, { wrapper: AllProviders, ...options });
-
-export { customRender as render };
+version https://git-lfs.github.com/spec/v1
+oid sha256:de504cd9550832d937e7643ef2be0890e6abc29a406d711e156eb3e87bee9f01
+size 367
