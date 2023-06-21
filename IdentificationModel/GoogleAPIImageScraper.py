@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:bf0483572bb8360da105c9ef2f4617f0f0d98438542d926fababbf4cd0d0e649
-size 340
+from google_images_search import GoogleImagesSearch
+
+gis = GoogleImagesSearch('', '')
+query = input("Enter your search query: ")
+numberOfResults = int(input("Enter the number of images you want to download: "))
+gis.search(search_params = {'q': query, 'num': numberOfResults, 'fileType': 'jpg'} , path_to_dir = "", custom_image_name = query)
