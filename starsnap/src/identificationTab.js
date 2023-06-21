@@ -30,6 +30,7 @@ import {
     Collapse,
     Flex,
     Input,
+    Skeleton,
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import { CheckIcon, WarningIcon, AddIcon, ChatIcon, TriangleDownIcon, TriangleUpIcon, Search2Icon, CloseIcon } from '@chakra-ui/icons';
@@ -41,32 +42,38 @@ export default function IdentificationTab() {
     const { colorMode, toggleColorMode } = useColorMode();
 
     const [image, setImage] = useState(null);
+    const [imageFile, setImageFile] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [data, setData] = useState(null);
+    const [isLoaded, setIsLoaded] = React.useState(false)
 
     const handleImageChange = (e) => {
         setImage(URL.createObjectURL(e.target.files[0]));
+        setImageFile(e.target.files[0]);
     };
 
     const handleImageUpload = async () => {
         setLoading(true);
         const formData = new FormData();
-        formData.append('file', image);
+        formData.append('file', imageFile);
         try {
             const res = await fetch('http://localhost:5000/predict', {
                 method: 'POST',
                 body: formData,
             });
 
-            const data = await res.json();
+            setData(await res.json());
             console.log(data);
         } catch (err) {
             console.log(err);
         }
         setTimeout(() => {
-        }, Math.floor(Math.random() * 4500) + 4500);
-        setLoading(false);
+            setLoading(false);
+            setIsLoaded(true);
+        }, Math.floor(Math.random() * 2500) + 2000);
     };
 
+    const class_names = data ? data.class_names : null;
 
     return (
         <Box>
@@ -86,7 +93,7 @@ export default function IdentificationTab() {
                         </Button>
                     </>}
 
-                    {image && !loading && <Box align="center">
+                    {image && !data && !loading && <Box align="center">
                         <HStack justify="center">
                             <Button variant="outline" colorScheme="red" leftIcon={<CloseIcon />} size="lg" onClick={() => setImage(null)}>
                                 Remove Image
@@ -98,18 +105,30 @@ export default function IdentificationTab() {
                     </Box>}
                     {image && <Image src={image} boxShadow="lg" paddingTop="1em" maxWidth="60%" maxHeight="60vh" alt="uploaded file" />}
                     {loading && (
-                        <Spinner
-                            size="xl"
-                            thickness="4px"
-                            speed="0.65s"
-                            emptyColor="gray.200"
-                            color="blue.500"
-                            position="absolute"
-                            top="50%"
-                            left="50%"
-                            transform="translate(-50%, -50%)"
-                        />
+                        <HStack justify="center">
+                            <Spinner
+                                size="xl"
+                                thickness="4px"
+                                speed="0.65s"
+                                emptyColor="gray.200"
+                                color="blue.500"
+                                marginTop="1em"
+                            />
+                            <Text fontSize="sm" color="grey" marginTop="1em">Identifying image...</Text>
+                        </HStack>
                     )}
+                    {((data && isLoaded) || loading) && <>
+                        <Text fontSize="xl" marginTop="1em">Most likely constellations:</Text>
+                        <Skeleton height="2em" width="60%" my="0.5em" isLoaded={isLoaded} fadeDuration={5}>
+                            <Text fontSize="lg" marginTop="1em">{data ? class_names[0] : null}</Text>
+                        </Skeleton>
+                        <Skeleton height="2em" width="60%" my="0.5em" isLoaded={isLoaded} fadeDuration={10}>
+                            <Text fontSize="md" marginTop="1em">{data ? class_names[1] : null}</Text>
+                        </Skeleton>
+                        <Skeleton height="2em" width="60%" my="0.5em" isLoaded={isLoaded} fadeDuration={15}>
+                            <Text fontSize="sm" marginTop="1em">{data ? class_names[2] : null}</Text>
+                        </Skeleton>
+                    </>}
                 </Box>
             </Flex>
         </Box>
