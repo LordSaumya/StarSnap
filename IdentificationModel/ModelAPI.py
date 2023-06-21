@@ -29,7 +29,8 @@ def transform_image(image_bytes):
 def get_prediction(image_bytes):
     tensor = transform_image(image_bytes=image_bytes) 
     outputs = model.forward(tensor)
-    topk = pt.topk(outputs, len(outputs))
+    percentages = pt.nn.functional.softmax(outputs, dim=1)[0] * 100
+    topk = pt.topk(percentages, len(percentages))
 
     class_names = []
     probabilities = []
