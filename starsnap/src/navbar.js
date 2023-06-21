@@ -54,7 +54,7 @@ export default function Navbar(props) {
                         <Flex justify="center" flex={1} align="center">
                             <ButtonGroup variant="ghost" spacing="8">
                                 <Button as="a" href="/" leftIcon={<Icon as={FaGraduationCap} boxSize="1.5em" />} variant={props.currentPage === "learningTab" ? "solid" : "ghost"}>Learning Tab</Button>
-                                <Image display="inline" onMouseDown={{/*Add navigate function*/ }} boxSize="6em" src={cameraIcon} _hover={{ border: "2px", boxShadow: "dark-lg" }} border="1px" boxShadow="lg" borderRadius={1000000} />
+                                <Image display="inline" onMouseDown={() => props.currentPage != "identificationTab" ? Navigate("identify") : null} boxSize="6em" src={cameraIcon} _hover={{ border: "2px", boxShadow: "dark-lg" }} border="1px" boxShadow="lg" borderRadius={1000000} />
                                 <Button as="a" href="/" leftIcon={<Icon as={FaComments} boxSize="1.5em" />} variant={props.currentPage === "learningTab" ? "solid" : "ghost"}>Forum</Button>
                                 {mods.includes(username) ? <Button onClick={() => Navigate("/ModDashboard", { state: { access: true } })} variant={props.currentPage === "moderator" ? "solid" : "ghost"}>Moderator Dashboard</Button> : <></>}
                             </ButtonGroup>
