@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9bf536513aa07eca0a94a6565c0af952d27d84232e75f77f4029a81fb9582d86
-size 152
+[build]
+    base = "starsnap/"
+    publish = "public/"
+    command = "yarn build"
+
+[[redirects]]
+    from = "/*"
+    to = "/index.html"
+    status = 200

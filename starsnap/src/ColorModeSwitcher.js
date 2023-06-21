@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7ae651908b147e19e6c4f764ab0d9cecd6afd1c2ca68d2cca437f4465d673a6e
-size 617
+import React from 'react';
+import { useColorMode, useColorModeValue, IconButton } from '@chakra-ui/react';
+import { FaMoon, FaSun } from 'react-icons/fa';
+
+export const ColorModeSwitcher = props => {
+  const { toggleColorMode } = useColorMode();
+  const text = useColorModeValue('dark', 'light');
+  const SwitchIcon = useColorModeValue(FaMoon, FaSun);
+
+  return (
+    <IconButton
+      size="md"
+      fontSize="lg"
+      aria-label={`Switch to ${text} mode`}
+      variant="ghost"
+      color="current"
+      marginLeft="2"
+      onClick={toggleColorMode}
+      icon={<SwitchIcon />}
+      {...props}
+    />
+  );
+};
