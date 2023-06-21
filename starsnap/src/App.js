@@ -11,6 +11,7 @@ import {
   theme,
 } from '@chakra-ui/react';
 import Home from './Home';
+import identificationTab from './identificationTab';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { persistor, store } from './store';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -29,6 +30,7 @@ export default function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/identify" element={<identificationTab />} />
             </Routes>
           </BrowserRouter>
         </ChakraProvider>
