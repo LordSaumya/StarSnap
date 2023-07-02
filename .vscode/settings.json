@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:57a259eacb63a05e2164803e67b4d3f5d8bb012e9e3fa216cc847a4aeb7a596b
-size 132
+{
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "python.formatting.provider": "none",
+    "python.analysis.typeCheckingMode": "off"
+}

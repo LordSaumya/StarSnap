@@ -18,6 +18,7 @@ import {
     Image,
 } from '@chakra-ui/react';
 import { FaGraduationCap, FaSignOutAlt, FaComments, FaUserAstronaut, FaImages} from 'react-icons/fa';
+import profilePic from './images/profilePic.png';
 import cameraIcon from './images/cameraIcon.png';
 import logo from './images/logo.png';
 import { useState } from 'react';
@@ -30,7 +31,7 @@ import { useSelector, useDispatch } from 'react-redux';
 // Main component
 export default function Navbar(props) {
     const mods = JSON.parse(JSON.stringify(moderatorList)).moderators;
-    const username = "abc"; //useSelector(state => state.username);
+    const username = "";//useSelector(state => state.username);
     const Navigate = useNavigate();
     const profPageLink = "/profile/" + username;
 
@@ -101,7 +102,7 @@ function NavbarProfileLink(props) {
         return (
             <HStack>
                 <Menu>
-                    <MenuButton as={IconButton} aria-label='ProfilePic' variant="ghost" icon = {<Image src={cameraIcon} alt="Logo" height="50px" borderRadius={10000}  _hover = {{border: "1px"}} />} borderRadius={1000000}>
+                    <MenuButton as={IconButton} aria-label='ProfilePic' variant="ghost" icon = {<Image src={profilePic} alt="Logo" height="50px" borderRadius={10000}  _hover = {{border: "1px"}} />} borderRadius={1000000}>
                     </MenuButton>
                     <MenuList>
                         <MenuItem icon = {<Icon as = {FaUserAstronaut} boxSize={5} />} onClick={() => Navigate("/profile/" + username)}>Profile</MenuItem>

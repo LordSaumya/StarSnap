@@ -6,6 +6,7 @@ import LazyLoad from 'react-lazyload';
 import moment from 'moment';
 import background from './images/background.jpg';
 import { FaArrowCircleUp } from 'react-icons/fa';
+import testImage from './images/testImage.jpg';
 import moderatorList from './moderatorsList.json';
 import Post from './post.js';
 import {
@@ -41,7 +42,7 @@ export default function Home() {
         <Navbar />
         <Flex justifyContent = "center" height = "100vh" width = "100vw" bgImage={background}>
             <Box minHeight = "100vh" width="70%" bg = {colorMode !== 'dark' ? 'white' : 'gray.800'} py = "1em">
-                <Post />
+                <Post Date = {new Date("2023-06-25 22:57:36")} Image = {testImage} Caption = "This is a test post showing the Beehive cluster. This is a caption for the post." />
             </Box>
         </Flex>
     </Box>
