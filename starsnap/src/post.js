@@ -41,7 +41,7 @@ export default function Post(props) {
     const Navigate = useNavigate();
     const timeAgo = moment(Date).fromNow();
     const author = UseFetch("localhost:4000/" + props.UserID); //REPLACE URL
-    const authorUsername = author ? "" : author.username;
+    const authorUsername = author ? "Test Author" : author.username;
     
 
     const mods = JSON.parse(JSON.stringify(moderatorList)).moderators;
@@ -59,7 +59,7 @@ export default function Post(props) {
                     </Badge>
                     : <></>
                 }
-                    <HStack><Image  src={cameraIcon} height = "2em" alt="ProfPic" borderRadius={10000} _hover={{border: "1px"}} /><Text fontSize="sm" color="gray.500"><Link href={"/ProfilePage/" + authorUsername} color="teal.500" >{authorUsername}</Link> {timeAgo}</Text></HStack>
+                    <HStack><Image  src={cameraIcon} height = "2em" alt="ProfPic" borderRadius={10000} _hover={{border: "1px"}} /><Text fontSize="sm" color="gray.500"><Link href={"/ProfilePage/" + authorUsername} color="teal.500" >Test Username</Link> {timeAgo}</Text></HStack>
                     <Divider color = "gray.500" paddingTop = "5px" />
                     <Image height = "40vh" width = "100%" py = "8px" src={image} alt="PostImage" />
                     <Divider color = "gray.500" paddingTop = "5px" />
