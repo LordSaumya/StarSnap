@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import Home from './Home';
 import IdentificationTab from './identificationTab';
+import LearningTab from './LearningTab';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { persistor, store } from './store';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -31,6 +32,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/identify" element={<IdentificationTab />} />
+              <Route path="/learn" element={<LearningTab />} />
             </Routes>
           </BrowserRouter>
         </ChakraProvider>
