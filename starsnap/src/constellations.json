@@ -1,0 +1,30 @@
+[
+    {
+    "name": "Orion",
+    "wikiTitle": "Orion_(constellation)",
+    "level": 1,
+    "image": "https://upload.wikimedia.org/wikipedia/commons/0/03/La_constel%C2%B7laci%C3%B3_de_Ori%C3%B3_i_l%27estrella_Betelgeuse.jpg",
+    "description": "Orion is a prominent constellation located on the celestial equator and visible throughout the world. It is one of the most conspicuous and recognizable constellations in the night sky. It is named after Orion, a hunter in Greek mythology. Its brightest stars are the blue-white Rigel (Beta Orionis) and the red Betelgeuse (Alpha Orionis)."
+    },
+    {
+    "name": "Big Dipper",
+    "wikiTitle": "Big_Dipper",
+    "level": 1,
+    "image": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Big_Dipper_%28ann22042ah%29.jpg",
+    "description": "The Big Dipper is a large asterism consisting of seven bright stars of the constellation Ursa Major; six of them are of second magnitude and one, Megrez (δ), of third magnitude. Four define a \"bowl\" or \"body\" and three define a \"handle\" or \"head\". It is recognized as a distinct grouping in many cultures."
+    },
+    {
+        "name": "Crux",
+        "wikiTitle": "Crux",
+        "level": 2,
+        "image": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Crux_tahiti.jpg",
+        "description": "Crux is a constellation of the southern sky that is centred on four bright stars in a cross-shaped asterism commonly known as the Southern Cross. It lies on the southern end of the Milky Way's visible band. The name Crux is Latin for cross."
+    },
+    {
+        "name": "Scorpius",
+        "wikiTitle": "Scorpius",
+        "level": 3,
+        "image": "https://npr.brightspotcdn.com/dims4/default/736f4c2/2147483647/strip/true/crop/6000x4000+0+0/resize/1760x1174!/format/webp/quality/90/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F7d%2F02%2F96ec13d14bdd84d2cecd9ee535af%2Fadobestock-378814763.jpeg",
+        "description": "Scorpius is a zodiac constellation located in the Southern celestial hemisphere, where it sits near the center of the Milky Way, between Libra to the west and Sagittarius to the east. Scorpius is an ancient constellation that pre-dates the Greeks; it is one of the 48 constellations identified by the Greek astronomer Ptolemy in the second century."
+    }
+]
