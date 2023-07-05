@@ -45,11 +45,12 @@ export default function LearningTab() {
     const { colorMode, toggleColorMode } = useColorMode();
     const constellations = JSON.parse(JSON.stringify(constellationList));
 
-    const initialConstellationQuery = useLocation().constellationQuery;
+    const locationInfo = useLocation();
+    const initialConstellationQuery = locationInfo.state ? locationInfo.state.constellation : undefined;
     const [constellationQuery, setConstellationQuery] = useState(constellations.find((constellation) => constellation.name === initialConstellationQuery));
 
     if (constellationQuery === undefined) {
-        setConstellationQuery(constellations[0]);
+        setConstellationQuery(constellations[Math.floor(Math.random() * constellations.length)]);
     }
 
 

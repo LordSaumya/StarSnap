@@ -22,6 +22,7 @@ import {
     HStack,
     Divider,
     FormControl,
+    Icon,
     FormLabel,
     Spacer,
     Spinner,
@@ -35,6 +36,7 @@ import {
 import { useSelector } from 'react-redux';
 import { CheckIcon, WarningIcon, AddIcon, ChatIcon, TriangleDownIcon, TriangleUpIcon, Search2Icon, CloseIcon } from '@chakra-ui/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { FaGraduationCap } from 'react-icons/fa';
 
 //Body
 
@@ -46,6 +48,7 @@ export default function IdentificationTab() {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState(null);
     const [isLoaded, setIsLoaded] = React.useState(false)
+    const navigate = useNavigate();
 
     const handleImageChange = (e) => {
         setImage(URL.createObjectURL(e.target.files[0]));
@@ -78,7 +81,7 @@ export default function IdentificationTab() {
     return (
         <Box>
             <Navbar currentPage="identificationTab" />
-            <Flex justifyContent="center" height="100vh" width="100vw" bgImage={background}>
+            <Flex justifyContent="center" minHeight="100vh" width="100vw" bgImage={background}>
                 <Box align="center" minHeight="100vh" width="70%" bg={colorMode !== 'dark' ? 'white' : 'gray.800'} py="2em">
                 <Heading as = "h1" size = "xl" flex = "1" textAlign = "center" py = "0.5em">Identification Tab</Heading>
                     {!image && !loading && <>
@@ -104,7 +107,7 @@ export default function IdentificationTab() {
                             </Button>
                         </HStack>
                     </Box>}
-                    {image && <Image src={image} boxShadow="lg" paddingTop="1em" maxWidth="60%" maxHeight="60vh" alt="uploaded file" />}
+                    {image && <Image  transition="box-shadow 0.5s ease-in-out" _hover={{ boxShadow: "dark-lg" }} boxShadow="xl" src={image} marginTop="1em" maxWidth="60%" maxHeight="60vh" alt="uploaded file" />}
                     {loading && (
                         <HStack justify="center">
                             <Spinner
@@ -118,6 +121,8 @@ export default function IdentificationTab() {
                             <Text fontSize="sm" color="grey" marginTop="1em">Identifying image...</Text>
                         </HStack>
                     )}
+                    <Flex py = "1em" direction="row" width="90%" justify="center">
+                        <Box>
                     {((data && isLoaded) || loading) && <>
                         <Text fontSize="xl" marginTop="1em">Most likely constellations:</Text>
                         <Skeleton height="2em" width="60%" my="0.5em" isLoaded={isLoaded} fadeDuration={5}>
@@ -130,6 +135,22 @@ export default function IdentificationTab() {
                             <Text fontSize="sm" marginTop="1em">{data ? class_names[2] : null}</Text>
                         </Skeleton>
                     </>}
+                    </Box>
+                    <Spacer flex="0.1" />
+                    <Box>
+                    {
+                        (data && isLoaded) && <>
+                        <Button width = "100%" variant="outline" colorScheme="blue" leftIcon={<Search2Icon />} size="lg" onClick={() => window.location.reload(false)}>
+                            Identify Another Image
+                        </Button>
+                        <Spacer flex="0.2" />
+                        <Button width = "100%" mt = "1em" variant="outline" leftIcon={<Icon as={FaGraduationCap} boxSize="1.5em" />} colorScheme="green" size="lg" onClick={() => navigate("/learn", {state: {constellationQuery: class_names[0]}})}>
+                            Learn More
+                        </Button>
+                        </>
+                    }
+                    </Box>
+                    </Flex>
                 </Box>
             </Flex>
         </Box>

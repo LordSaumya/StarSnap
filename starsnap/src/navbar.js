@@ -24,7 +24,6 @@ import logo from './images/logo.png';
 import { useState } from 'react';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { useNavigate } from 'react-router-dom';
-// import LogoImage from './logo.png'; /* TODO: change to logo */
 import moderatorList from './moderatorsList.json';
 import { useSelector, useDispatch } from 'react-redux';
 
