@@ -39,8 +39,8 @@ export default function Home() {
     const { colorMode, toggleColorMode } = useColorMode();
     return (
     <Box>
-        <Navbar />
-        <Flex justifyContent = "center" height = "100vh" width = "100vw" bgImage={background}>
+        <Navbar currentPage = "forum" />
+        <Flex justifyContent = "center" minHeight = "100vh" width = "100vw" bgImage={background}>
             <Box minHeight = "100vh" width="70%" bg = {colorMode !== 'dark' ? 'white' : 'gray.800'} py = "1em">
                 <Post Date = {new Date("2023-06-25 22:57:36")} Image = {testImage} Caption = "This is a test post showing the Beehive cluster. This is a caption for the post." />
             </Box>
