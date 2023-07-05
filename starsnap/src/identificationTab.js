@@ -80,6 +80,7 @@ export default function IdentificationTab() {
             <Navbar currentPage="identificationTab" />
             <Flex justifyContent="center" height="100vh" width="100vw" bgImage={background}>
                 <Box align="center" minHeight="100vh" width="70%" bg={colorMode !== 'dark' ? 'white' : 'gray.800'} py="2em">
+                <Heading as = "h1" size = "xl" flex = "1" textAlign = "center" py = "0.5em">Identification Tab</Heading>
                     {!image && !loading && <>
                         <Input
                             id="image-upload"
