@@ -8,6 +8,7 @@ import {
   Heading,
   Input,
   Select,
+  Collapse,
   Text,
   VStack,
 } from "@chakra-ui/react";

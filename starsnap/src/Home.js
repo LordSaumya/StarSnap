@@ -9,6 +9,7 @@ import { FaArrowCircleUp } from 'react-icons/fa';
 import testImage from './images/testImage.jpg';
 import moderatorList from './moderatorsList.json';
 import Post from './post.js';
+
 import {
     Box,
     Text,
@@ -32,6 +33,8 @@ import {
 import { useSelector } from 'react-redux';
 import { CheckIcon, WarningIcon, AddIcon, ChatIcon, TriangleDownIcon, TriangleUpIcon, Search2Icon } from '@chakra-ui/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
+import HomePage from './homePage.js';
+
 
 //Body
 
@@ -42,7 +45,7 @@ export default function Home() {
         <Navbar currentPage = "forum" />
         <Flex justifyContent = "center" minHeight = "100vh" width = "100vw" bgImage={background}>
             <Box minHeight = "100vh" width="70%" bg = {colorMode !== 'dark' ? 'white' : 'gray.800'} py = "1em">
-                <Post Date = {new Date("2023-06-25 22:57:36")} Image = {testImage} Caption = "This is a test post showing the Beehive cluster. This is a caption for the post." />
+                <HomePage />
             </Box>
         </Flex>
     </Box>

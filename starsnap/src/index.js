@@ -1,9 +1,9 @@
 import { ColorModeScript } from '@chakra-ui/react';
 import React, { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import * as serviceWorker from './serviceWorker';
+import App from './App.js';
+import reportWebVitals from './reportWebVitals.js';
+import * as serviceWorker from './serviceWorker.js';
 
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);

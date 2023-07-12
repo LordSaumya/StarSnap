@@ -8,9 +8,12 @@
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@reduxjs/toolkit": "^1.9.5",
+    "@supabase/supabase-js": "^2.26.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
+    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
     "framer-motion": "^6.5.1",
     "moment": "^2.29.4",
     "react": "^18.2.0",
@@ -23,6 +26,7 @@
     "react-scripts": "5.0.1",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.2",
+    "supabase": "^1.77.6",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

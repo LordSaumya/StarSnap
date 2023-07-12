@@ -10,10 +10,15 @@ import {
   SimpleGrid,
   Image,
   Text,
+  Flex,
+  useColorMode,
 } from "@chakra-ui/react";
 import { AddIcon, SearchIcon } from "@chakra-ui/icons";
+import background from './images/background.jpg';
+import Navbar from './navbar.js';
 
-const Gallery = () => {
+export default function PersonalGallery() {
+  const { colorMode, toggleColorMode } = useColorMode();
   const [images, setImages] = useState([]);
   const [captions, setCaptions] = useState([]);
   const [showUploadForm, setShowUploadForm] = useState(false);
@@ -119,5 +124,3 @@ const Gallery = () => {
     </Box>
   );
 };
-
-export default Gallery;

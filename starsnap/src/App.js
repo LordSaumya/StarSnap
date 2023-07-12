@@ -10,14 +10,18 @@ import {
   Grid,
   theme,
 } from '@chakra-ui/react';
-import Home from './Home';
-import IdentificationTab from './identificationTab';
-import LearningTab from './LearningTab';
-import { ColorModeSwitcher } from './ColorModeSwitcher';
-import { persistor, store } from './store';
+import Home from './Home.js';
+import IdentificationTab from './identificationTab.js';
+import LearningTab from './LearningTab.js';
+import { ColorModeSwitcher } from './ColorModeSwitcher.js';
+import { persistor, store } from './store.js';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { PersistGate } from 'redux-persist/integration/react';
+import SignIn from './SignIn.js';
+import SignUp from './SignUp.js';
+import PersonalGallery from './personalGallery.js';
+import ProfilePage from './profilePage.js';
 
 export default function App() {
   return (
@@ -33,6 +37,10 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/identify" element={<IdentificationTab />} />
               <Route path="/learn" element={<LearningTab />} />
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/personalgallery" element={<PersonalGallery />} />
+
             </Routes>
           </BrowserRouter>
         </ChakraProvider>

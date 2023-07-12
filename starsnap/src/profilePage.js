@@ -16,7 +16,7 @@ const supabaseKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpYXNodmxtdWFsaXBkaWNpcmxiIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc2MzgwNjIsImV4cCI6MjAwMzIxNDA2Mn0._aTzU3_PMXZdpxI-_gp1JaFMevd080yGYURIubIzibE";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const ProfilePage = ({ userId }) => {
+export default function ProfilePage(props) {
   const [userPosts, setUserPosts] = useState([]);
   const [userComments, setUserComments] = useState([]);
   const [email, setEmail] = useState("");
@@ -35,7 +35,7 @@ const ProfilePage = ({ userId }) => {
       const { data, error } = await supabase
         .from("posts")
         .select("*")
-        .eq("author_id", userId);
+        .eq("author_id", props.userId);
       if (error) {
         throw error;
       }
@@ -50,7 +50,7 @@ const ProfilePage = ({ userId }) => {
       const { data, error } = await supabase
         .from("comments")
         .select("*")
-        .eq("author_id", userId);
+        .eq("author_id", props.userId);
       if (error) {
         throw error;
       }
@@ -65,7 +65,7 @@ const ProfilePage = ({ userId }) => {
       const { data, error } = await supabase
         .from("users")
         .select("email, profile_picture, username")
-        .eq("id", userId)
+        .eq("id", props.userId)
         .single();
       if (error) {
         throw error;
@@ -84,7 +84,7 @@ const ProfilePage = ({ userId }) => {
       const { error } = await supabase
         .from("users")
         .update({ email })
-        .eq("id", userId);
+        .eq("id", props.userId);
 
       if (error) {
         throw error;
@@ -115,7 +115,7 @@ const ProfilePage = ({ userId }) => {
       const { error } = await supabase
         .from("users")
         .update({ profile_picture: profilePicture })
-        .eq("id", userId);
+        .eq("id", props.userId);
 
       if (error) {
         throw error;
@@ -132,7 +132,7 @@ const ProfilePage = ({ userId }) => {
       const { error } = await supabase
         .from("users")
         .update({ username })
-        .eq("id", userId);
+        .eq("id", props.props.userId);
 
       if (error) {
         throw error;
@@ -253,5 +253,3 @@ const ProfilePage = ({ userId }) => {
     </Box>
   );
 };
-
-export default ProfilePage;

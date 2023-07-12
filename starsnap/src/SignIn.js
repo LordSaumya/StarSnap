@@ -7,30 +7,34 @@ import {
   FormLabel,
   Heading,
   Input,
+  Flex,
   Stack,
   Text,
   Alert,
   AlertIcon,
 } from "@chakra-ui/react";
 import { createClient } from "@supabase/supabase-js";
+import bcrypt from "bcryptjs";
+import background from './images/background.jpg';
+import Navbar from './navbar.js';
+import { useColorMode } from "@chakra-ui/react";
 
 const supabaseUrl = "https://riashvlmualipdicirlb.supabase.co";
 const supabaseKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpYXNodmxtdWFsaXBkaWNpcmxiIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc2MzgwNjIsImV4cCI6MjAwMzIxNDA2Mn0._aTzU3_PMXZdpxI-_gp1JaFMevd080yGYURIubIzibE";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-import bcrypt from "bcryptjs";
-
-const SignIn = () => {
+export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { colorMode, toggleColorMode } = useColorMode();
 
   const handleSignIn = async () => {
     setIsLoading(true);
     try {
-      const { error, user } = await supabaseClient.auth.signIn({
+      const { error, user } = await supabase.auth.signIn({
         email,
         password,
       });
@@ -56,8 +60,10 @@ const SignIn = () => {
   };
 
   return (
-    <Box minH="100vh" py="12" px={{ base: "4", lg: "8" }} bg="gray.50">
-      <Box maxW="md" mx="auto">
+    <Box>
+    <Navbar currentPage = "forum" />
+    <Flex justifyContent = "center" minHeight = "100vh" width = "100vw" bgImage={background}>
+    <Box minHeight = "100vh" width="70%" bg = {colorMode !== 'dark' ? 'white' : 'gray.800'} py = "1em">
         <Heading textAlign="center" m="6">
           Sign In
         </Heading>
@@ -68,11 +74,9 @@ const SignIn = () => {
           </Alert>
         )}
         <Box
-          py="8"
           px={{ base: "4", md: "10" }}
           shadow="base"
           rounded={{ sm: "lg" }}
-          bg="white"
         >
           <chakra.form onSubmit={handleSignIn}>
             <Stack spacing="6">
@@ -109,10 +113,9 @@ const SignIn = () => {
               </Button>
             </Stack>
           </chakra.form>
+          </Box>
         </Box>
-      </Box>
-    </Box>
-  );
+        </Flex>
+        </Box>
+        );
 };
-
-export { SignIn };

@@ -6,14 +6,15 @@ import {
 } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
 
 const supabaseUrl = "https://riashvlmualipdicirlb.supabase.co";
 const supabaseKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpYXNodmxtdWFsaXBkaWNpcmxiIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc2MzgwNjIsImV4cCI6MjAwMzIxNDA2Mn0._aTzU3_PMXZdpxI-_gp1JaFMevd080yGYURIubIzibE";
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabaseClient = createClient(supabaseUrl, supabaseKey);
 
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
+
 
 const App = () => {
   const [user, setUser] = useState(null);
