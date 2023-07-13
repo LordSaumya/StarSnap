@@ -36,7 +36,7 @@ import {
 import { useSelector } from 'react-redux';
 import { CheckIcon, WarningIcon, AddIcon, ChatIcon, TriangleDownIcon, TriangleUpIcon, Search2Icon, CloseIcon } from '@chakra-ui/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { FaGraduationCap } from 'react-icons/fa';
+import { FaGraduationCap, FaComments, FaImages } from 'react-icons/fa';
 
 //Body
 
@@ -146,6 +146,14 @@ export default function IdentificationTab() {
                         <Spacer flex="0.2" />
                         <Button width = "100%" mt = "1em" variant="outline" leftIcon={<Icon as={FaGraduationCap} boxSize="1.5em" />} colorScheme="green" size="lg" onClick={() => navigate("/learn", {state: {constellationQuery: class_names[0]}})}>
                             Learn More
+                        </Button>
+                        <Spacer flex="0.2" />
+                        <Button width = "100%" mt = "1em" variant="outline" leftIcon={<Icon as={FaComments} boxSize="1.5em" />} colorScheme="yellow" size="lg" onClick={() => navigate("/", {state: {constellationQuery: class_names[0]}})}>
+                            Post to Forum
+                        </Button>
+                        <Spacer flex="0.2" />
+                        <Button width = "100%" mt = "1em" variant="outline" leftIcon={<Icon as={FaImages} boxSize="1.5em" />} colorScheme="purple" size="lg" onClick={() => navigate("/", {state: {constellationQuery: class_names[0]}})}>
+                            Save to Gallery
                         </Button>
                         </>
                     }
