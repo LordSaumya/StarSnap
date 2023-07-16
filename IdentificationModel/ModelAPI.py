@@ -17,7 +17,7 @@ model.eval()
 def transform_image(image_bytes):
     transformList = transforms.Compose([
             transforms.Grayscale(num_output_channels=1),
-            transforms.CenterCrop(224),
+            transforms.Resize((224, 224)),
             transforms.ColorJitter(brightness=0, contrast=2.0, saturation=0, hue=0),
             transforms.ToTensor(),
             transforms.Normalize((0.5,), (0.5,))
