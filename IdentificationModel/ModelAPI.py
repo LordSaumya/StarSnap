@@ -30,30 +30,20 @@ def get_prediction(image_bytes):
     tensor = transform_image(image_bytes=image_bytes) 
     outputs = model.forward(tensor)
     percentages = pt.nn.functional.softmax(outputs, dim=1)[0] * 100
-    topk = pt.topk(percentages, len(percentages))
 
+    #convert to dictionary
     class_names = []
     probabilities = []
-    for index, value in enumerate(topk[1]):
-        class_names.append(imagenet_class_index[str(index)])
-        probabilities.append(value.item() / 100)
-    
-    # Sort the probabilities tuple in reverse order.
-    sorted_probabilities = sorted(probabilities, reverse=True)
+    for i in range(len(percentages)):
+        class_names.append(imagenet_class_index[str(i)])
+        probabilities.append(percentages[i].item())
 
-    # Create a dictionary to map probabilities to class names.
-    class_name_map = {}
-    for index, probability in enumerate(probabilities):
-        class_name_map[probability] = class_names[index]
-
-    # Create a list of sorted class names.
-    sorted_class_names = []
-    for probability in sorted_probabilities:
-        sorted_class_names.append(class_name_map[probability])
+    #Sort arrays by probability
+    class_names, probabilities = zip(*sorted(zip(class_names, probabilities), key=lambda x: x[1], reverse=True))
 
     prediction = json.dumps({
-        "class_names": sorted_class_names,
-        "probabilities": sorted_probabilities
+        "class_names": class_names,
+        "probabilities": probabilities
     })
 
     return prediction

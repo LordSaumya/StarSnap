@@ -23,7 +23,7 @@ class idDataLoader(pl.LightningDataModule):
         self.transform = transforms.Compose([
             transforms.Grayscale(num_output_channels=1),
             transforms.RandomRotation(degrees=180),
-            transforms.CenterCrop(224),
+            transforms.Resize((224, 224)),
             transforms.ColorJitter(brightness=0, contrast=2.0, saturation=0, hue=0),
             transforms.ToTensor(),
             transforms.Normalize((0.5,), (0.5,))
@@ -104,6 +104,7 @@ class idModel(pl.LightningModule):
         # activation functions
         self.relu = nn.ReLU()
         self.softmax = nn.Softmax(dim=1)
+        self.dropout = nn.Dropout(0.5)
 
         # accuracy function
         self.accuracy = tm.Accuracy(task = "multiclass", num_classes = numOfConstellations)
@@ -115,6 +116,7 @@ class idModel(pl.LightningModule):
       x = self.batchNorm1(x)
       x = self.relu(x)
       x = self.maxPool(x)
+      x = self.dropout(x)
 
       # Layer 2
       x = self.conv2(x)
@@ -126,6 +128,7 @@ class idModel(pl.LightningModule):
       x = self.batchNorm3(x)
       x = self.relu(x)
       x = self.maxPool(x)
+      x = self.dropout(x)
 
       # Layer 4
       x = self.conv4(x)
@@ -137,6 +140,7 @@ class idModel(pl.LightningModule):
       x = self.batchNorm5(x)
       x = self.relu(x)
       x = self.maxPool(x)
+      x = self.dropout(x)
 
       # Layer 6
       x = pt.flatten(x, 1) # reduces tensor dimension to 1D
