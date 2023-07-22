@@ -23,8 +23,22 @@
     {
         "name": "Scorpius",
         "wikiTitle": "Scorpius",
-        "level": 3,
+        "level": 2,
         "image": "https://npr.brightspotcdn.com/dims4/default/736f4c2/2147483647/strip/true/crop/6000x4000+0+0/resize/1760x1174!/format/webp/quality/90/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F7d%2F02%2F96ec13d14bdd84d2cecd9ee535af%2Fadobestock-378814763.jpeg",
         "description": "Scorpius is a zodiac constellation located in the Southern celestial hemisphere, where it sits near the center of the Milky Way, between Libra to the west and Sagittarius to the east. Scorpius is an ancient constellation that pre-dates the Greeks; it is one of the 48 constellations identified by the Greek astronomer Ptolemy in the second century."
+    },
+    {
+        "name": "Canis Major",
+        "wikiTitle": "Canis_Major",
+        "level": 3,
+        "image": "https://skyandtelescope.org/wp-content/uploads/Fujii-Canis-Major-cr-632x474.jpg",
+        "description": "Canis Major is a constellation in the southern celestial hemisphere. In the second century, it was included in Ptolemy's 48 constellations, and is counted among the 88 modern constellations. Its name is Latin for \"greater dog\" in contrast to Canis Minor, the \"lesser dog\"; both figures are commonly represented as following the constellation of Orion the hunter through the sky."
+    },
+    {
+        "name": "Ursa Minor",
+        "wikiTitle": "Ursa_Minor",
+        "level": 3,
+        "image": "https://t4.ftcdn.net/jpg/03/09/74/93/360_F_309749317_Wb5ffg0y79002tdftBZ7VBBaEMpRPh5l.jpg",  
+        "description": "Ursa Minor, also known as the Little Bear, is a constellation located in the far northern sky. As with the Great Bear, the tail of the Little Bear may also be seen as the handle of a ladle, hence the North American name, Little Dipper: seven stars with four in its bowl like its partner the Big Dipper. Ursa Minor was one of the 48 constellations listed by the 2nd-century astronomer Ptolemy, and remains one of the 88 modern constellations. Ursa Minor has traditionally been important for navigation, particularly by mariners, because of Polaris being the north pole star."
     }
 ]
