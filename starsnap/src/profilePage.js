@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom'; // Import the useParams hook
 import {
   Box,
   Button,
@@ -8,21 +9,24 @@ import {
   Heading,
   Input,
   VStack,
-} from "@chakra-ui/react";
-import { createClient } from "@supabase/supabase-js";
+} from '@chakra-ui/react';
+import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = "https://riashvlmualipdicirlb.supabase.co";
+const supabaseUrl = 'https://riashvlmualipdicirlb.supabase.co';
 const supabaseKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpYXNodmxtdWFsaXBkaWNpcmxiIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc2MzgwNjIsImV4cCI6MjAwMzIxNDA2Mn0._aTzU3_PMXZdpxI-_gp1JaFMevd080yGYURIubIzibE";
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpYXNodmxtdWFsaXBkaWNpcmxiIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc2MzgwNjIsImV4cCI6MjAwMzIxNDA2Mn0._aTzU3_PMXZdpxI-_gp1JaFMevd080yGYURIubIzibE';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export default function ProfilePage(props) {
+export default function ProfilePage() {
   const [userPosts, setUserPosts] = useState([]);
   const [userComments, setUserComments] = useState([]);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [profilePicture, setProfilePicture] = useState("");
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [profilePicture, setProfilePicture] = useState('');
+  const [username, setUsername] = useState('');
+
+  // Use useParams to access the userId from the URL
+  const { userId } = useParams();
 
   useEffect(() => {
     fetchUserPosts();
@@ -33,40 +37,39 @@ export default function ProfilePage(props) {
   const fetchUserPosts = async () => {
     try {
       const { data, error } = await supabase
-        .from("posts")
-        .select("*")
-        .eq("author_id", props.userId);
+        .from('posts')
+        .select('*')
+        .eq('author_id', userId); // Use the userId from the URL instead of props
       if (error) {
         throw error;
       }
       setUserPosts(data);
     } catch (error) {
-      console.error("Error fetching user posts:", error.message);
+      console.error('Error fetching user posts:', error.message);
     }
   };
 
   const fetchUserComments = async () => {
     try {
       const { data, error } = await supabase
-        .from("comments")
-        .select("*")
-        .eq("author_id", props.userId);
+        .from('comments')
+        .select('*')
+        .eq('author_id', userId); // Use the userId from the URL instead of props
       if (error) {
         throw error;
       }
       setUserComments(data);
     } catch (error) {
-      console.error("Error fetching user comments:", error.message);
+      console.error('Error fetching user comments:', error.message);
     }
   };
 
   const fetchUserProfile = async () => {
     try {
       const { data, error } = await supabase
-        .from("users")
-        .select("email, profile_picture, username")
-        .eq("id", props.userId)
-        .single();
+        .from('users')
+        .select('email, profile_picture, username')
+        .eq('id', userId); // Use the userId from the URL instead of props
       if (error) {
         throw error;
       }
@@ -74,28 +77,28 @@ export default function ProfilePage(props) {
       setProfilePicture(data.profile_picture);
       setUsername(data.username);
     } catch (error) {
-      console.error("Error fetching user profile:", error.message);
+      console.error('Error fetching user profile:', error.message);
     }
   };
 
-  const handleEmailChange = async (e) => {
+  const handleEmailChange = async e => {
     e.preventDefault();
     try {
       const { error } = await supabase
-        .from("users")
+        .from('users')
         .update({ email })
-        .eq("id", props.userId);
+        .eq('id', props.userId);
 
       if (error) {
         throw error;
       }
-      console.log("Email successfully changed!");
+      console.log('Email successfully changed!');
     } catch (error) {
-      console.error("Error changing email:", error.message);
+      console.error('Error changing email:', error.message);
     }
   };
 
-  const handlePasswordChange = async (e) => {
+  const handlePasswordChange = async e => {
     e.preventDefault();
     try {
       const { error } = await supabase.auth.update({ password });
@@ -103,43 +106,43 @@ export default function ProfilePage(props) {
       if (error) {
         throw error;
       }
-      console.log("Password successfully changed!");
+      console.log('Password successfully changed!');
     } catch (error) {
-      console.error("Error changing password:", error.message);
+      console.error('Error changing password:', error.message);
     }
   };
 
-  const handleProfilePictureChange = async (e) => {
+  const handleProfilePictureChange = async e => {
     e.preventDefault();
     try {
       const { error } = await supabase
-        .from("users")
+        .from('users')
         .update({ profile_picture: profilePicture })
-        .eq("id", props.userId);
+        .eq('id', props.userId);
 
       if (error) {
         throw error;
       }
-      console.log("Profile picture successfully changed!");
+      console.log('Profile picture successfully changed!');
     } catch (error) {
-      console.error("Error changing profile picture:", error.message);
+      console.error('Error changing profile picture:', error.message);
     }
   };
 
-  const handleUsernameChange = async (e) => {
+  const handleUsernameChange = async e => {
     e.preventDefault();
     try {
       const { error } = await supabase
-        .from("users")
+        .from('users')
         .update({ username })
-        .eq("id", props.props.userId);
+        .eq('id', props.props.userId);
 
       if (error) {
         throw error;
       }
-      console.log("Username successfully changed!");
+      console.log('Username successfully changed!');
     } catch (error) {
-      console.error("Error changing username:", error.message);
+      console.error('Error changing username:', error.message);
     }
   };
 
@@ -153,7 +156,7 @@ export default function ProfilePage(props) {
         My Posts
       </Heading>
       <VStack spacing={4} align="stretch">
-        {userPosts.map((post) => (
+        {userPosts.map(post => (
           <Box
             key={post.id}
             bg="white"
@@ -173,7 +176,7 @@ export default function ProfilePage(props) {
         My Comments
       </Heading>
       <VStack spacing={4} align="stretch">
-        {userComments.map((comment) => (
+        {userComments.map(comment => (
           <Box
             key={comment.id}
             bg="white"
@@ -197,7 +200,7 @@ export default function ProfilePage(props) {
           <Input
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={e => setEmail(e.target.value)}
             required
           />
         </FormControl>
@@ -212,7 +215,7 @@ export default function ProfilePage(props) {
           <Input
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={e => setPassword(e.target.value)}
             required
           />
         </FormControl>
@@ -227,7 +230,7 @@ export default function ProfilePage(props) {
           <Input
             type="text"
             value={profilePicture}
-            onChange={(e) => setProfilePicture(e.target.value)}
+            onChange={e => setProfilePicture(e.target.value)}
             required
           />
         </FormControl>
@@ -242,7 +245,7 @@ export default function ProfilePage(props) {
           <Input
             type="text"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={e => setUsername(e.target.value)}
             required
           />
         </FormControl>
@@ -252,4 +255,4 @@ export default function ProfilePage(props) {
       </form>
     </Box>
   );
-};
+}
