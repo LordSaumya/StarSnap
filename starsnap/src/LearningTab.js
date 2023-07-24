@@ -46,7 +46,7 @@ export default function LearningTab() {
     const constellations = JSON.parse(JSON.stringify(constellationList));
 
     const locationInfo = useLocation();
-    const initialConstellationQuery = locationInfo.state ? locationInfo.state.constellation : undefined;
+    const initialConstellationQuery = locationInfo.state ? locationInfo.state.constellationQuery : undefined;
     const [constellationQuery, setConstellationQuery] = useState(constellations.find((constellation) => constellation.name === initialConstellationQuery));
 
     if (constellationQuery === undefined) {

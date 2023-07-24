@@ -87,7 +87,7 @@ export default function ProfilePage() {
       const { error } = await supabase
         .from('users')
         .update({ email })
-        .eq('id', props.userId);
+        .eq('id', userId);
 
       if (error) {
         throw error;
@@ -118,7 +118,7 @@ export default function ProfilePage() {
       const { error } = await supabase
         .from('users')
         .update({ profile_picture: profilePicture })
-        .eq('id', props.userId);
+        .eq('id', userId);
 
       if (error) {
         throw error;
@@ -135,7 +135,7 @@ export default function ProfilePage() {
       const { error } = await supabase
         .from('users')
         .update({ username })
-        .eq('id', props.props.userId);
+        .eq('id', userId);
 
       if (error) {
         throw error;

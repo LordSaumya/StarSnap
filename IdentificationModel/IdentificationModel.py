@@ -98,7 +98,7 @@ class idModel(pl.LightningModule):
         self.fc1 = nn.Linear(294912, 128)
 
         ## Layer 7 (output layer)
-        numOfConstellations = 4
+        numOfConstellations = 6
         self.fc2 = nn.Linear(128, numOfConstellations)
 
         # activation functions

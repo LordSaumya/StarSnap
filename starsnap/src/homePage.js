@@ -13,113 +13,118 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { createClient } from '@supabase/supabase-js';
+import Post from './post.js';
+import postImage1 from './images/postImage1.jpg';
+import postImage2 from './images/postImage2.jpg';
+import moment from 'moment';
+
 
 const supabaseUrl = 'https://riashvlmualipdicirlb.supabase.co';
 const supabaseKey =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpYXNodmxtdWFsaXBkaWNpcmxiIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc2MzgwNjIsImV4cCI6MjAwMzIxNDA2Mn0._aTzU3_PMXZdpxI-_gp1JaFMevd080yGYURIubIzibE';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const Post = ({
-  post,
-  handleLike,
-  handleShare,
-  showComments,
-  setShowComments,
-  handleEditComment,
-  handleDeleteComment,
-  handleSubmitComment,
-  newComment,
-  setNewComment,
-}) => {
-  return (
-    <Box key={post.id} bg="white" boxShadow="base" p={4} borderRadius="md">
-      <Heading as="h2" size="lg" mb={2}>
-        {post.caption}
-      </Heading>
-      <Text fontSize="sm" color="gray.500" mb={2}>
-        Posted by {post.author} on {post.created_at}
-      </Text>
-      <Text>{post.tag}</Text>
-      <Flex mt={4}>
-        <Button
-          colorScheme="blue"
-          size="sm"
-          onClick={() => handleLike(post.id)}
-        >
-          Like ({post.likes_count})
-        </Button>
-        <Button
-          ml={2}
-          colorScheme="green"
-          size="sm"
-          onClick={() => handleShare(post.id)}
-        >
-          Share ({post.shares_count})
-        </Button>
-      </Flex>
+// const Post = ({
+//   post,
+//   handleLike,
+//   handleShare,
+//   showComments,
+//   setShowComments,
+//   handleEditComment,
+//   handleDeleteComment,
+//   handleSubmitComment,
+//   newComment,
+//   setNewComment,
+// }) => {
+//   return (
+//     <Box key={post.id} bg="white" boxShadow="base" p={4} borderRadius="md">
+//       <Heading as="h2" size="lg" mb={2}>
+//         {post.caption}
+//       </Heading>
+//       <Text fontSize="sm" color="gray.500" mb={2}>
+//         Posted by {post.author} on {post.created_at}
+//       </Text>
+//       <Text>{post.tag}</Text>
+//       <Flex mt={4}>
+//         <Button
+//           colorScheme="blue"
+//           size="sm"
+//           onClick={() => handleLike(post.id)}
+//         >
+//           Like ({post.likes_count})
+//         </Button>
+//         <Button
+//           ml={2}
+//           colorScheme="green"
+//           size="sm"
+//           onClick={() => handleShare(post.id)}
+//         >
+//           Share ({post.shares_count})
+//         </Button>
+//       </Flex>
 
-      <Collapse startingHeight={0} in={showComments.includes(post.id)}>
-        <VStack spacing={2} mt={4} align="stretch">
-          {post.comments.map(comment => (
-            <Box key={comment.id} p={2} bg="gray.200" borderRadius="md">
-              {comment.text}
-              {(comment.author === post.author || comment.isModerator) && (
-                <Flex justify="flex-end" mt={2}>
-                  <Button
-                    size="sm"
-                    colorScheme="blue"
-                    mr={2}
-                    onClick={() =>
-                      handleEditComment(post.id, comment.id, 'Updated text')
-                    }
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    size="sm"
-                    colorScheme="red"
-                    onClick={() => handleDeleteComment(post.id, comment.id)}
-                  >
-                    Delete
-                  </Button>
-                </Flex>
-              )}
-            </Box>
-          ))}
-        </VStack>
-      </Collapse>
+//       <Collapse startingHeight={0} in={showComments.includes(post.id)}>
+//         <VStack spacing={2} mt={4} align="stretch">
+//           {post.comments.map(comment => (
+//             <Box key={comment.id} p={2} bg="gray.200" borderRadius="md">
+//               {comment.text}
+//               {(comment.author === post.author || comment.isModerator) && (
+//                 <Flex justify="flex-end" mt={2}>
+//                   <Button
+//                     size="sm"
+//                     colorScheme="blue"
+//                     mr={2}
+//                     onClick={() =>
+//                       handleEditComment(post.id, comment.id, 'Updated text')
+//                     }
+//                   >
+//                     Edit
+//                   </Button>
+//                   <Button
+//                     size="sm"
+//                     colorScheme="red"
+//                     onClick={() => handleDeleteComment(post.id, comment.id)}
+//                   >
+//                     Delete
+//                   </Button>
+//                 </Flex>
+//               )}
+//             </Box>
+//           ))}
+//         </VStack>
+//       </Collapse>
 
-      <Button
-        mt={2}
-        size="sm"
-        colorScheme="blue"
-        onClick={() =>
-          setShowComments(prev =>
-            prev.includes(post.id)
-              ? prev.filter(id => id !== post.id)
-              : [...prev, post.id]
-          )
-        }
-      >
-        {showComments.includes(post.id) ? 'Hide Comments' : 'Show Comments'}
-      </Button>
-      <form onSubmit={e => handleSubmitComment(post.id, e)}>
-        <FormControl mt={2}>
-          <FormLabel>Leave a Comment</FormLabel>
-          <Input
-            type="text"
-            value={newComment}
-            onChange={e => setNewComment(e.target.value)}
-            required
-          />
-        </FormControl>
-        <Button mt={2} type="submit" colorScheme="blue" size="sm">
-          Submit Comment
-        </Button>
-      </form>
-    </Box>
-  );
-};
+//       <Button
+//         mt={2}
+//         size="sm"
+//         colorScheme="blue"
+//         onClick={() =>
+//           setShowComments(prev =>
+//             prev.includes(post.id)
+//               ? prev.filter(id => id !== post.id)
+//               : [...prev, post.id]
+//           )
+//         }
+//       >
+//         {showComments.includes(post.id) ? 'Hide Comments' : 'Show Comments'}
+//       </Button>
+//       <form onSubmit={e => handleSubmitComment(post.id, e)}>
+//         <FormControl mt={2}>
+//           <FormLabel>Leave a Comment</FormLabel>
+//           <Input
+//             type="text"
+//             value={newComment}
+//             onChange={e => setNewComment(e.target.value)}
+//             required
+//           />
+//         </FormControl>
+//         <Button mt={2} type="submit" colorScheme="blue" size="sm">
+//           Submit Comment
+//         </Button>
+//       </form>
+//     </Box>
+//   );
+// };
 
 const HomePage = () => {
   const [posts, setPosts] = useState([]);
@@ -309,12 +314,12 @@ const HomePage = () => {
   };
 
   return (
-    <Box p={4}>
+    <Box p={4} align = "center">
       <Heading as="h1" size="xl" mb={4}>
         Social Forum
       </Heading>
 
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}>
         <Flex mb={4}>
           <FormControl mr={4}>
             <FormLabel>Caption</FormLabel>
@@ -347,7 +352,7 @@ const HomePage = () => {
             Submit
           </Button>
         </Flex>
-      </form>
+      </form> */}
 
       <VStack spacing={4} align="stretch">
         {posts.map(post => (
@@ -366,6 +371,8 @@ const HomePage = () => {
           />
         ))}
       </VStack>
+      <Post Image = {postImage1} Date = {moment("20230712", "YYYYMMDD")} Tag = "Beehive Cluster" Caption = "This is a test post of the Beehive Cluster" />
+      <Post Image = {postImage2} Date = {moment("20230714", "YYYYMMDD")} Tag = "Ursa Minor" Caption = "This is a test post of Ursa Minor" />
     </Box>
   );
 };

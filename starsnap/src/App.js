@@ -18,8 +18,7 @@ import { persistor, store } from './store.js';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { PersistGate } from 'redux-persist/integration/react';
-import SignIn from './SignIn.js';
-import SignUp from './SignUp.js';
+import SignInSignUp from './signInSignUp.js';
 import PersonalGallery from './personalGallery.js';
 import ProfilePage from './profilePage.js';
 
@@ -37,10 +36,8 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/identify" element={<IdentificationTab />} />
               <Route path="/learn" element={<LearningTab />} />
-              <Route path="/signin" element={<SignIn />} />
-              <Route path="/signup" element={<SignUp />} />
+              <Route path="/Registration" element={<SignInSignUp />} />
               <Route path="/personalgallery" element={<PersonalGallery />} />
-
             </Routes>
           </BrowserRouter>
         </ChakraProvider>

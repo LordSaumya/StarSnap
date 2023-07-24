@@ -17,6 +17,7 @@ import { createClient } from '@supabase/supabase-js';
 import bcrypt from 'bcryptjs';
 import background from './images/background.jpg';
 import Navbar from './navbar.js';
+import { useDispatch } from 'react-redux';
 import { useColorMode } from '@chakra-ui/react';
 
 const supabaseUrl = 'https://riashvlmualipdicirlb.supabase.co';
@@ -25,6 +26,7 @@ const supabaseKey =
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default function SignInSignUp() {
+  const dispatch = useDispatch();
   const [isSignIn, setIsSignIn] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -102,6 +104,8 @@ export default function SignInSignUp() {
       console.log('User signed up:', user);
       // Redirect to account page or handle successful signup
       setIsSignIn(true); // Automatically switch to Sign In after successful sign-up
+      // const action = { type: "LOGIN", username: username, id: id };
+      // dispatch(action);
     } catch (error) {
       console.error('Sign up error:', error.message);
       setError(error.message);
@@ -152,7 +156,18 @@ export default function SignInSignUp() {
             rounded={{ sm: 'lg' }}
           >
             <chakra.form onSubmit={handleSubmit}>
-              {!isSignIn && (
+              { !isSignIn && ( // Display username input field for Sign Up
+                <FormControl id="username">
+                  <FormLabel>Username</FormLabel>
+                  <Input
+                    name="username"
+                    type="text"
+                    autoComplete="username"
+                    required
+                  />
+                </FormControl>
+              )
+              }
                 <FormControl id="email">
                   <FormLabel>Email address</FormLabel>
                   <Input
@@ -164,7 +179,6 @@ export default function SignInSignUp() {
                     onChange={handleEmailChange}
                   />
                 </FormControl>
-              )}
               <FormControl id="password">
                 <FormLabel>Password</FormLabel>
                 <Input
@@ -202,6 +216,7 @@ export default function SignInSignUp() {
               )}
               <Button
                 type="submit"
+                mt = "1em"
                 colorScheme="blue"
                 size="lg"
                 fontSize="md"
