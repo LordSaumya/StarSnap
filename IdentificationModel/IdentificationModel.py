@@ -1,17 +1,27 @@
-# Imports 
+# Imports
+from google.colab import drive, files
+import io
+drive.mount("/content/gdrive")
+!pip install pytorch_lightning
 import pytorch_lightning as pl
+%matplotlib inline
+import matplotlib.pyplot as plt
+import numpy as np
+from PIL import Image
 import math as maths
+!pip install torch
 import torch as pt
 from torch import nn
 from torch.nn import functional as F
 from torch.utils.data import random_split, DataLoader
 import torchmetrics as tm
+!pip install torchvision
 from torchvision import transforms
 from pytorch_lightning import loggers as pl_loggers
 from torchvision.datasets import ImageFolder
-from PIL import Image
-import matplotlib.pyplot as plt
-import io
+
+dataDirPath = '/content/gdrive/My Drive/Orbital 2023/Training Images'
+numOfConstellations = 6
 
 # dataLoader provider
 class idDataLoader(pl.LightningDataModule):
@@ -54,7 +64,7 @@ class idDataLoader(pl.LightningDataModule):
 
     def test_dataloader(self):
         return DataLoader(self.id_test, batch_size=self.batch_size)
-    
+
 # Model
 class idModel(pl.LightningModule):
     def __init__(self, inputShape, numClasses, lr, batchSize):
@@ -98,7 +108,6 @@ class idModel(pl.LightningModule):
         self.fc1 = nn.Linear(294912, 128)
 
         ## Layer 7 (output layer)
-        numOfConstellations = 6
         self.fc2 = nn.Linear(128, numOfConstellations)
 
         # activation functions
@@ -228,12 +237,11 @@ class idModel(pl.LightningModule):
         optimiser = pt.optim.Adam(self.parameters(), lr=self.lr) # Adaptive Moment Estimation (Adam) optimiser
         scheduler = pt.optim.lr_scheduler.StepLR(optimiser, step_size=10, gamma=0.1)
         return [optimiser], [scheduler]
-
-# TensorBoard Visualisation
+        
 def plot_confusion_matrix(confmat):
 
     confmat = confmat.cpu()
-    
+
     # Plot the confusion matrix using matplotlib
     fig, ax = plt.subplots()
     ax.matshow(confmat, cmap=plt.cm.Blues)
@@ -251,17 +259,17 @@ def plot_confusion_matrix(confmat):
 
     return image
 
-# Data directory path
-dataDirPath = "/images"
-
 # Training
+%load_ext tensorboard
+%tensorboard --logdir=./lightning_logs
 tensorboard = pl_loggers.TensorBoardLogger(save_dir="")
-trainer = pl.Trainer(logger = tensorboard)
-model = idModel((1,224,224), 4, 1e-3, 5)
+trainer = pl.Trainer(logger = tensorboard, max_epochs = 75)
+model = idModel((1,224,224), 6, 1e-3, 5)
 dataLoader = idDataLoader(dataDirPath, 5)
 
 # Main function
 if __name__ == '__main__':
     trainer.fit(model, datamodule=dataLoader)
     trainer.validate(model, datamodule=dataLoader)
-    pt.save(model.state_dict(), 'checkpoint.pth')
+    pt.save(model.state_dict(), 'checkpoint.ckpt')
+    files.download('checkpoint.ckpt')
